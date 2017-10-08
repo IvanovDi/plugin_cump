@@ -24,6 +24,14 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 
+function addrian_plugin_scripts() {
+
+    wp_enqueue_style( 'jquery-ui', '//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"');
+    wp_enqueue_script( 'jquery-ui-tabs' );
+
+}
+add_action( 'admin_enqueue_scripts', 'addrian_plugin_scripts' );
+
 include_once( plugin_dir_path( __FILE__ ) . 'shared/class-deserializer.php' );
 include_once( plugin_dir_path( __FILE__ ) . 'public/class-content-messenger.php' );
 
@@ -39,11 +47,12 @@ add_action( 'plugins_loaded', 'addrian_custom_admin_settings' );
  *
  * @since 1.0.0
  */
+
+
 function addrian_custom_admin_settings() {
 
 	$serializer = new Serializer();
     $serializer->init();
-
 
     $deserializer = new Deserializer();
 
@@ -54,4 +63,5 @@ function addrian_custom_admin_settings() {
 	
  	$plugin = new Submenu( new Submenu_Page($deserializer) );
     $plugin->init();
+
 }

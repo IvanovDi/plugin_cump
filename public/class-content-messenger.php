@@ -38,19 +38,29 @@ class ContentMessenger {
      */
     public function display( $content ) {
 
+        //todo нуно выбрать точку где вызывать этот код
+
+        include_once ( plugin_dir_path( __FILE__ ) . '../data-schedule-camps.php' );
+
+        global $wpdb;
+
+        $data = new DataScheduleCamps($wpdb);
+        $data->createTableScheduleCamps();
+        $data->storeDataPriceCamps();
+
         /* Return the content as-is, if the value is an empty string or if we're not
          * on a single post page.
          */
-        $message = $this->deserializer->get_value( 'tutsplus-custom-data' );
-        if ( empty( $message ) || ! is_single() ) {
-            return $content;
-        }
-
-        // Escape the data from the database and prepend it to the post content.
-        $message = esc_html( $message );
-        $content = $message . $content;
-
-        return $content;
+//        $message = $this->deserializer->get_value( 'tutsplus-custom-data' );
+//        if ( empty( $message ) || ! is_single() ) {
+//            return $content;
+//        }
+//
+//        // Escape the data from the database and prepend it to the post content.
+//        $message = esc_html( $message );
+//        $content = $message . $content;
+//
+//        return $content;
     }
 
 
