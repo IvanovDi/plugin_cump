@@ -38,7 +38,7 @@ class ContentMessenger {
      */
     public function display( $content ) {
 
-        //todo нуно выбрать точку где вызывать этот код
+        //todo нужно выбрать точку где вызывать этот код
 
         include_once ( plugin_dir_path( __FILE__ ) . '../data-schedule-camps.php' );
 

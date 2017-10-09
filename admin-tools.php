@@ -28,6 +28,11 @@ function addrian_plugin_scripts() {
 
     wp_enqueue_style( 'jquery-ui', '//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"');
     wp_enqueue_script( 'jquery-ui-tabs' );
+    wp_enqueue_script( 'chosen.jquery', 'https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.jquery.js' );
+    wp_register_style('font-awesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css');
+    wp_enqueue_style('chosen', 'https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.css');
+    wp_enqueue_style('font-awesome');
+
 
 }
 add_action( 'admin_enqueue_scripts', 'addrian_plugin_scripts' );

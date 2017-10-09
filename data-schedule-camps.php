@@ -29,6 +29,25 @@ class DataScheduleCamps
                 require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
                 dbDelta($sql);
         }
+
+//        вынести в отдельный метод
+
+        $table_name = $this->wpdb_global->prefix . 'camp_schedule';
+        if($this->wpdb_global->get_var("show tables like '$table_name'") != $table_name) {
+            $sql = ("
+                CREATE TABLE {$table_name} (
+                  `id` INT UNSIGNED NOT NULL,
+                  `from` DATE NULL,
+                  `to` DATE NULL,
+                  `price` DECIMAL(16,2),
+                  `booking` TINYINT(4) NULL,
+                  `location` VARCHAR(45) NULL,
+                  PRIMARY KEY (`id`)) ENGINE=InnoDB CHARACTER SET=utf8;
+            ");
+            require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+            dbDelta($sql);
+        }
+
     }
 
     public function storeDataPriceCamps()
