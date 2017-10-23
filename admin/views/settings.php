@@ -1,11 +1,12 @@
 <script>
     jQuery( function() {
         jQuery( "#tabs" ).tabs();
-    } );
 
-    jQuery(function() {
-        jQuery(".chzn-select").chosen();
-    });
+        var country = ["Australia", "Bangladesh", "Denmark", "Hong Kong", "Indonesia", "Netherlands", "New Zealand", "South Africa"];
+        jQuery("#count").select2({
+            data: country
+        });
+    } );
 </script>
 
 
@@ -14,8 +15,6 @@
 include_once( plugin_dir_path( __FILE__ ) . 'shared/class-deserializer.php' );
 
 $deserializer = new Deserializer();
-//echo "<pre>";
-//print_r($deserializer->get_value());
 
 if ($_POST['form_id'] && isset($_POST['form_id'])) {
     global $wpdb;
@@ -52,9 +51,25 @@ if ($_POST['form_id'] && isset($_POST['form_id'])) {
                     <lable> Date To
                         <input type="date" name="new[date_to]" required value="">
                     </lable>
-                    <lable> Price
+                    <lable> Price Mid
+                        <div>
+                            <select id="count" style="width:300px;">
+                                <!-- Dropdown List Option -->
+                            </select>
+                        </div>
+
+                        <!--            использовать Autocomplete  jquery ui-->
+<!--                            <select  name="new['price_mid']">-->
+<!--                                --><?php //foreach ($deserializer->get_value() as $item) { ?>
+<!--                                    <option value='--><?php //echo  $item['price']; ?><!--'>--><?php //echo  $item['service_name']; echo " / {$item['location']}"; ?><!--</option>-->
+<!---->
+<!--                                --><?php //}?>
+<!---->
+<!--                            </select>-->
+                    </lable>
+                    <lable> Price Full
                         <!--            получать значение из своей базы -->
-                        <select class="chzn-select" multiple="true" name="new['price'][]">
+                        <select  name="new['price_full']">
                             <?php foreach ($deserializer->get_value() as $item) { ?>
                                 <option value='<?php echo  $item['price']; ?>'><?php echo  $item['service_name']; echo " / {$item['location']}"; ?></option>
 
