@@ -32,14 +32,15 @@ class DataScheduleCamps
 
 //        вынести в отдельный метод
 
-        $table_name = $this->wpdb_global->prefix . 'camp_schedule';
+            $table_name = $this->wpdb_global->prefix . 'camp_schedule';
         if($this->wpdb_global->get_var("show tables like '$table_name'") != $table_name) {
             $sql = ("
                 CREATE TABLE {$table_name} (
-                  `id` INT UNSIGNED NOT NULL,
+                  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
                   `from` DATE NULL,
                   `to` DATE NULL,
-                  `price` DECIMAL(16,2),
+                  `price_mid` DECIMAL(16,2),
+                  `price_full` DECIMAL(16,2),
                   `booking` TINYINT(4) NULL,
                   `location` VARCHAR(45) NULL,
                   PRIMARY KEY (`id`)) ENGINE=InnoDB CHARACTER SET=utf8;

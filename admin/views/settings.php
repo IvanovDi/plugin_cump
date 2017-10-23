@@ -1,15 +1,3 @@
-<script>
-    jQuery( function() {
-        jQuery( "#tabs" ).tabs();
-
-        var country = ["Australia", "Bangladesh", "Denmark", "Hong Kong", "Indonesia", "Netherlands", "New Zealand", "South Africa"];
-        jQuery("#count").select2({
-            data: country
-        });
-    } );
-</script>
-
-
 <?php
 
 include_once( plugin_dir_path( __FILE__ ) . 'shared/class-deserializer.php' );
@@ -20,14 +8,15 @@ if ($_POST['form_id'] && isset($_POST['form_id'])) {
     global $wpdb;
     $table_name = $wpdb->prefix . 'camp_schedule';
     echo "<pre>";
-    print_r($_POST);
+    var_dump($_POST);
 
     $wpdb->insert($table_name, [
         'from' => $_POST['new']['date_from'],
         'to' => $_POST['new']['date_to'],
         'booking' => $_POST['new']['booking'] ? 1 : 0,
-        'price' => $_POST['new']['price'],
-        'location' => 'Niko'
+        'price_mid' => $_POST['new']['price_mid'],
+        'price_full' => $_POST['new']['price_full'],
+        'location' => $_POST['location']
     ]);
 }
 ?>
@@ -44,7 +33,41 @@ if ($_POST['form_id'] && isset($_POST['form_id'])) {
         <div id="tabs-1">
             <form action="" method="post" id="structure" name="structure" enctype="multipart/form-data">
                 <div>
+
+
+
+                    <?php foreach ($deserializer->get_camp_price_value() as $item) { ?>
+                        <div>
+                        <lable> Date From
+                            <input type="date" name="edit[date_from]" required value="<?php echo $item['from']; ?>">
+                        </lable>
+                        <lable> Date To
+                            <input type="date" name="edit[date_to]" required value="<?php echo $item['to']; ?>">
+                        </lable>
+                        <lable> Price Mid
+                            <select class="price" style="width:200px;" name="new[price_mid]">
+                                <option value="<?php echo $item['price_mid']; ?>"></option>
+                            </select>
+                        </lable>
+                        <lable> Price Full
+                            <select class="price" style="width:200px;" name="new[price_full]">
+                                <!-- Dropdown List Option -->
+                            </select>
+                        </lable>
+                        <lable>Booking
+                            <input type="checkbox" name="new[booking]" >
+                        </lable>
+                        <span class="trash-icon"><a href="" title="trash"><i class="fa fa-trash fa-2x" aria-hidden="true"></i></a></span>
+                        </div>
+                    <?php } ?>
+
+
+
+
+
+
                     <input type="hidden" name="form_id" value="1">
+                    <input type="hidden" name="location" value="niclolaev">
                     <lable> Date From
                         <input type="date" name="new[date_from]" required value="">
                     </lable>
@@ -52,29 +75,13 @@ if ($_POST['form_id'] && isset($_POST['form_id'])) {
                         <input type="date" name="new[date_to]" required value="">
                     </lable>
                     <lable> Price Mid
-                        <div>
-                            <select id="count" style="width:300px;">
-                                <!-- Dropdown List Option -->
-                            </select>
-                        </div>
-
-                        <!--            использовать Autocomplete  jquery ui-->
-<!--                            <select  name="new['price_mid']">-->
-<!--                                --><?php //foreach ($deserializer->get_value() as $item) { ?>
-<!--                                    <option value='--><?php //echo  $item['price']; ?><!--'>--><?php //echo  $item['service_name']; echo " / {$item['location']}"; ?><!--</option>-->
-<!---->
-<!--                                --><?php //}?>
-<!---->
-<!--                            </select>-->
+                        <select class="price" style="width:200px;" name="new[price_mid]">
+                            <!-- Dropdown List Option -->
+                        </select>
                     </lable>
                     <lable> Price Full
-                        <!--            получать значение из своей базы -->
-                        <select  name="new['price_full']">
-                            <?php foreach ($deserializer->get_value() as $item) { ?>
-                                <option value='<?php echo  $item['price']; ?>'><?php echo  $item['service_name']; echo " / {$item['location']}"; ?></option>
-
-                            <?php }?>
-
+                        <select class="price" style="width:200px;" name="new[price_full]">
+                            <!-- Dropdown List Option -->
                         </select>
                     </lable>
                     <lable>Booking
@@ -82,6 +89,7 @@ if ($_POST['form_id'] && isset($_POST['form_id'])) {
                     </lable>
     <!--                реализовать удаление-->
                     <span class="trash-icon"><a href="" title="trash"><i class="fa fa-trash fa-2x" aria-hidden="true"></i></a></span>
+
                 </div>
                 <?php
                     wp_nonce_field( 'acme-settings-save', 'acme-custom-message' );
@@ -162,3 +170,21 @@ if ($_POST['form_id'] && isset($_POST['form_id'])) {
 <!--    </form>-->
  
 </div>
+
+
+<script>
+    jQuery( function() {
+        jQuery( "#tabs" ).tabs();
+
+        var price = [];
+        <?php foreach ($deserializer->get_price() as $item) { ?>
+
+            price.push({id : <?php echo $item['price'] ?>, text: "<?php echo $item['service_name'] ?>"});
+
+        <?php } ?>
+        console.log(price);
+        jQuery(".price").select2({
+            data: price
+        });
+    } );
+</script>
