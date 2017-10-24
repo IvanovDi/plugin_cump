@@ -11,13 +11,13 @@ class Deserializer
         ", ARRAY_A);
     }
 
-    public function get_camp_price_value()
+    public function get_camp_price_value($location)
     {
         global $wpdb;
 
         $table_name = $wpdb->prefix . 'camp_schedule';
         return $wpdb->get_results("
-            SELECT * FROM {$table_name}
+            SELECT * FROM {$table_name} WHERE `location` = '{$location}'
         ", ARRAY_A);
     }
 }

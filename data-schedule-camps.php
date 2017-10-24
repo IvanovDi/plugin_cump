@@ -37,12 +37,14 @@ class DataScheduleCamps
             $sql = ("
                 CREATE TABLE {$table_name} (
                   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-                  `from` DATE NULL,
-                  `to` DATE NULL,
+                  `date_from` DATE NULL,
+                  `date_to` DATE NULL,
                   `price_mid` DECIMAL(16,2),
                   `price_full` DECIMAL(16,2),
                   `booking` TINYINT(4) NULL,
                   `location` VARCHAR(45) NULL,
+                  `service_name_mid` VARCHAR(45),
+                  `service_name_full` VARCHAR(45),
                   PRIMARY KEY (`id`)) ENGINE=InnoDB CHARACTER SET=utf8;
             ");
             require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
