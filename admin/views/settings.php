@@ -72,6 +72,7 @@ if (isset($_POST['form_id']) && $_POST['form_id']) {
             <li><a href="#tabs-1">Николаев</a></li>
             <li><a href="#tabs-2">Херсон</a></li>
             <li><a href="#tabs-3">Киев</a></li>
+            <li><a href="#tabs-4">Сергеевка</a></li>
         </ul>
         <div id="tabs-1">
             <form action="" method="post" id="structure" name="structure" enctype="multipart/form-data">
@@ -116,31 +117,22 @@ if (isset($_POST['form_id']) && $_POST['form_id']) {
 
             </form>
         </div>
+        <div id="tabs-4">
+            <form action="" method="post" id="structure" name="structure" enctype="multipart/form-data">
+
+                <input type="hidden" name="form_id" value="4">
+                <input type="hidden" name="location" value="sergeevka">
+
+                <?php
+                $location = "sergeevka";
+                include (plugin_dir_path( __FILE__ ) . 'form-input.php');
+                $location = '';
+                ?>
+
+            </form>
+        </div>
     </div>
 
-
-
- 
-<!--    <form method="post" action="--><?php //echo esc_html( admin_url( 'admin-post.php' ) ); ?><!--">-->
-<!---->
-<!--    	<div id="universal-message-container">-->
-<!--            <h2>Universal Message</h2>-->
-<!-- -->
-<!--            <div class="options">-->
-<!--                <p>-->
-<!--                    <label>What message would you like to display above each post?</label>-->
-<!--                    <br />-->
-<!--                    <input type="text" name="acme-message"-->
-<!--                           value="--><?php //echo esc_attr( $this->deserializer->get_value( 'tutsplus-custom-data' ) ); ?><!--" />-->
-<!--                </p>-->
-<!--        </div>-->
-<!---->
-<!--          --><?php
-//            wp_nonce_field( 'acme-settings-save', 'acme-custom-message' );
-//            submit_button();
-//        ?>
-<!---->
-<!--    </form>-->
  
 </div>
 
