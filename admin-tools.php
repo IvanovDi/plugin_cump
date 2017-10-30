@@ -10,7 +10,7 @@
  * @package           Custom_Admin_Settings
  *
  * @wordpress-plugin
- * Plugin Name:       Addrian Admin Tools
+ * Plugin Name:       Addrian-Admin-Tools
  * Description:       Management of block schedules for summer camps.
  * Version:           1.0.0
  * Author:            Ivanov Dima
@@ -23,8 +23,14 @@ if ( ! defined( 'WPINC' ) ) {
      die;
 }
 
-// опредилить где и как нужно вызывать класс для полученния данных с удаленной БД
-// вынести в отдельный файл сохранение данных из формы
+
+// реализовать обновление по id строк, чтоб если в удаленный бд происходили изменения, 
+// и в бд данного сайта изменения цен тоже происходили
+
+ini_set('error_reporting', E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+
 
 //comment for test
 function addrian_plugin_scripts() {
@@ -45,6 +51,7 @@ add_action( 'admin_enqueue_scripts', 'addrian_plugin_scripts' );
 
 include_once( plugin_dir_path( __FILE__ ) . 'shared/class-deserializer.php' );
 include_once( plugin_dir_path( __FILE__ ) . 'public/class-content-messenger.php' );
+include_once( plugin_dir_path( __FILE__ ) . '/data-schedule-camps.php' );
 
 // Include the dependencies needed to instantiate the plugin.
 foreach ( glob( plugin_dir_path( __FILE__ ) . 'admin/*.php' ) as $file ) {
@@ -52,7 +59,8 @@ foreach ( glob( plugin_dir_path( __FILE__ ) . 'admin/*.php' ) as $file ) {
 }
 
  
-add_action( 'plugins_loaded', 'addrian_custom_admin_settings' );
+// add_action( 'plugins_loaded', 'addrian_custom_admin_settings' );
+register_activation_hook( __FILE__, 'addrian_custom_admin_settings');
 /**
  * Starts the plugin.
  *
@@ -75,4 +83,16 @@ function addrian_custom_admin_settings() {
  	$plugin = new Submenu( new Submenu_Page($deserializer) );
     $plugin->init();
 
+
+
+    include_once ( plugin_dir_path( __FILE__ ) . '/data-schedule-camps.php' );
+
+        global $wpdb;
+
+        $data = new DataScheduleCamps($wpdb);
+        $data->createTableScheduleCamps();
+        $data->storeDataPriceCamps();
+
 }
+
+register_deactivation_hook( __FILE__ , array('DataScheduleCamps', 'dropTablePriceCamp') );

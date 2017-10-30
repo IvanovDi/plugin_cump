@@ -72,4 +72,15 @@ class DataScheduleCamps
             where v_s.servicecategory = 'Летний лагерь';
         ", ARRAY_A);
     }
+
+    public static function dropTablePriceCamp()
+    {
+      global $wpdb;
+
+      $table_name = $wpdb->prefix . 'camp_price';
+
+      $wpdb->query(
+          "DROP TABLE {$table_name};"
+      );
+    }
 }
